@@ -1,0 +1,299 @@
+" <!DOCTYPE html> 
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine's Interactive Page</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Arial', sans-serif;
+    background-color: #FFF8E7;
+    overflow: hidden;
+  }
+
+  /* First Page Flexbox Centering */
+  #first-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+  }
+
+  #first-page-content {
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin: 20px 0;
+  }
+
+  /* First page image */
+  #first-image {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    animation: float 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+  }
+
+  /* Buttons */
+  .btn {
+    padding: 15px 35px;
+    margin: 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px 0 #d1bfa7;
+    background-color: #ff6b81;
+    color: white;
+    transition: all 0.2s ease;
+    z-index: 10;
+  }
+  .btn:active {
+    transform: translateY(5px);
+    box-shadow: 0 0 0 #d1bfa7;
+  }
+
+  #no-btn {
+    position: absolute; /* relative to wrapper */
+    left: 110%;        /* start next to Yes button */
+    top: 0;
+  }
+
+  /* Second Page */
+  #second-page {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  #fireworks {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+  #second-text {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+  #sub-text {
+    position: absolute;
+    top: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 600px;
+    font-size: 1rem;
+    line-height: 1.4rem;
+    text-align: center;
+    color: #333;
+    z-index: 2;
+  }
+  .voucher {
+    display: inline-block;
+    background: #ffefc1;
+    border: 2px dashed #ffb347;
+    padding: 3px 6px;
+    border-radius: 5px;
+    font-weight: bold;
+    animation: bounce 1.5s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+
+  #dog {
+    position: absolute;
+    top: 250px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    width: 400px;
+    height: auto;
+    border-radius: 15px;
+  }
+</style>
+</head>
+<body>
+
+<!-- First Page -->
+<div id="first-page">
+  <div id="first-page-content">
+    <!-- Centered floating photo -->
+    <img src="pepa.png" id="first-image" alt="Pepa">
+
+    <h1 id="greeting">Hello Lyreca, do you want to be my Valentine?</h1>
+
+    <!-- Buttons wrapper -->
+    <div id="buttons-wrapper" style="display: inline-block; position: relative;">
+      <button class="btn" id="yes-btn">Yes</button>
+      <button class="btn" id="no-btn">No</button>
+    </div>
+  </div>
+</div>
+
+<!-- Second Page -->
+<div id="second-page">
+  <canvas id="fireworks"></canvas>
+  <h1 id="second-text">Yay, you won't regret it!</h1>
+  <p id="sub-text">
+    Hello Pepang! I hope you have an amazing February, the month of love. Since you said YES to my invitation, you won’t just get gifts, but also a 
+    <span class="voucher">1x free massage from Peppa</span>, from me, redeemable any day between Feb 14–28. 😄 Enjoy, with love!
+  </p>
+  <img src="dog" id="dog" alt="Cute Dog">
+  <audio id="bg-music" src="song.mp3" preload="auto"></audio>
+</div>
+
+<script>
+  const noBtn = document.getElementById('no-btn');
+  const yesBtn = document.getElementById('yes-btn');
+
+  // Move "No" button randomly on hover
+  noBtn.addEventListener('mouseenter', () => {
+    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+  });
+
+  // Prevent clicking No button
+  noBtn.addEventListener('click', e => e.preventDefault());
+
+  // Typing animation
+  function typeText(element, text, callback) {
+    let i = 0;
+    element.textContent = '';
+    const interval = setInterval(() => {
+      element.textContent += text.charAt(i);
+      i++;
+      if (i >= text.length) {
+        clearInterval(interval);
+        if (callback) callback();
+      }
+    }, 100);
+  }
+
+  // Yes button click
+  yesBtn.addEventListener('click', () => {
+    yesBtn.style.display = 'none';
+    noBtn.style.display = 'none';
+    const firstPage = document.getElementById('first-page');
+    const secondPage = document.getElementById('second-page');
+    const greeting = document.getElementById('greeting');
+
+    typeText(greeting, "Yay, you won't regret it!", () => {
+      firstPage.style.display = 'none';
+      secondPage.style.display = 'block';
+      startFireworks();
+      playMusicAt28();
+    });
+  });
+
+  // Fireworks animation
+  function startFireworks() {
+    const canvas = document.getElementById('fireworks');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const fireworks = [];
+
+    function Firework() {
+      this.x = Math.random() * canvas.width;
+      this.y = canvas.height;
+      this.targetY = Math.random() * canvas.height / 2;
+      this.radius = Math.random() * 2 + 1;
+      this.color = `hsl(${Math.random()*360},100%,50%)`;
+      this.speed = Math.random() * 3 + 2;
+    }
+
+    Firework.prototype.update = function() {
+      this.y -= this.speed;
+      if (this.y <= this.targetY) return false;
+      return true;
+    }
+
+    function explode(x, y) {
+      for (let i = 0; i < 30; i++) {
+        fireworks.push({
+          x, y,
+          dx: Math.random()*6-3,
+          dy: Math.random()*-6,
+          alpha: 1,
+          color: `hsl(${Math.random()*360},100%,50%)`
+        });
+      }
+    }
+
+    function animate() {
+      ctx.fillStyle = 'rgba(255,248,231,0.2)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      if (Math.random() < 0.05) fireworks.push(new Firework());
+
+      for (let i = fireworks.length -1; i >=0; i--) {
+        const f = fireworks[i];
+        if (f.speed) {
+          if(!f.update()){
+            explode(f.x,f.y);
+            fireworks.splice(i,1);
+          } else {
+            ctx.beginPath();
+            ctx.arc(f.x,f.y,f.radius,0,Math.PI*2);
+            ctx.fillStyle = f.color;
+            ctx.fill();
+          }
+        } else {
+          f.x += f.dx;
+          f.y += f.dy;
+          f.alpha -= 0.02;
+          ctx.globalAlpha = f.alpha;
+          ctx.beginPath();
+          ctx.arc(f.x,f.y,2,0,Math.PI*2);
+          ctx.fillStyle = f.color;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+          if(f.alpha<=0) fireworks.splice(i,1);
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+  }
+
+  // Play music at 28s
+  function playMusicAt28() {
+    const audio = document.getElementById('bg-music');
+    audio.volume = 1.0;
+    audio.addEventListener('loadedmetadata', () => {
+      audio.currentTime = 28;
+      audio.play().catch(err => console.log("Play failed:", err));
+    });
+    if(audio.readyState >=1){
+      audio.currentTime = 28;
+      audio.play().catch(err => console.log("Play failed:", err));
+    }
+  }
+</script>
+
+</body>
+</html>
+
+"
