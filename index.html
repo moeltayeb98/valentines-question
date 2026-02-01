@@ -1,4 +1,4 @@
-" <!DOCTYPE html> 
+<!DOCTYPE html> 
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -15,7 +15,6 @@
     overflow: hidden;
   }
 
-  /* First Page Flexbox Centering */
   #first-page {
     display: flex;
     justify-content: center;
@@ -33,7 +32,6 @@
     margin: 20px 0;
   }
 
-  /* First page image */
   #first-image {
     width: 150px;
     height: auto;
@@ -47,7 +45,6 @@
     100% { transform: translateY(-10px); }
   }
 
-  /* Buttons */
   .btn {
     padding: 15px 35px;
     margin: 10px;
@@ -67,12 +64,11 @@
   }
 
   #no-btn {
-    position: absolute; /* relative to wrapper */
-    left: 110%;        /* start next to Yes button */
+    position: absolute;
+    left: 110%;
     top: 0;
   }
 
-  /* Second Page */
   #second-page {
     display: none;
     width: 100%;
@@ -80,12 +76,14 @@
     position: relative;
     overflow: hidden;
   }
+
   #fireworks {
     position: absolute;
     width: 100%;
     height: 100%;
     z-index: 0;
   }
+
   #second-text {
     position: absolute;
     top: 50px;
@@ -93,6 +91,7 @@
     transform: translateX(-50%);
     z-index: 2;
   }
+
   #sub-text {
     position: absolute;
     top: 120px;
@@ -106,6 +105,7 @@
     color: #333;
     z-index: 2;
   }
+
   .voucher {
     display: inline-block;
     background: #ffefc1;
@@ -135,15 +135,14 @@
 </head>
 <body>
 
-<!-- First Page -->
 <div id="first-page">
   <div id="first-page-content">
-    <!-- Centered floating photo -->
-    <img src="pepa.png" id="first-image" alt="Pepa">
+
+    <!-- Updated image: lowercase "ai" -->
+    <img src="ai" id="first-image" alt="ai">
 
     <h1 id="greeting">Hello Aileen, do you want to be my Valentine?</h1>
 
-    <!-- Buttons wrapper -->
     <div id="buttons-wrapper" style="display: inline-block; position: relative;">
       <button class="btn" id="yes-btn">Yes</button>
       <button class="btn" id="no-btn">No</button>
@@ -151,7 +150,6 @@
   </div>
 </div>
 
-<!-- Second Page -->
 <div id="second-page">
   <canvas id="fireworks"></canvas>
   <h1 id="second-text">Yay, you won't regret it!</h1>
@@ -167,7 +165,6 @@
   const noBtn = document.getElementById('no-btn');
   const yesBtn = document.getElementById('yes-btn');
 
-  // Move "No" button randomly on hover
   noBtn.addEventListener('mouseenter', () => {
     const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
     const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
@@ -175,10 +172,8 @@
     noBtn.style.top = y + 'px';
   });
 
-  // Prevent clicking No button
   noBtn.addEventListener('click', e => e.preventDefault());
 
-  // Typing animation
   function typeText(element, text, callback) {
     let i = 0;
     element.textContent = '';
@@ -192,7 +187,6 @@
     }, 100);
   }
 
-  // Yes button click
   yesBtn.addEventListener('click', () => {
     yesBtn.style.display = 'none';
     noBtn.style.display = 'none';
@@ -208,7 +202,6 @@
     });
   });
 
-  // Fireworks animation
   function startFireworks() {
     const canvas = document.getElementById('fireworks');
     const ctx = canvas.getContext('2d');
@@ -278,7 +271,6 @@
     animate();
   }
 
-  // Play music at 28s
   function playMusicAt28() {
     const audio = document.getElementById('bg-music');
     audio.volume = 1.0;
@@ -295,5 +287,3 @@
 
 </body>
 </html>
-
-"
