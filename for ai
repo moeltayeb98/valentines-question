@@ -141,7 +141,7 @@
     <!-- Centered floating photo -->
     <img src="pepa.png" id="first-image" alt="Pepa">
 
-    <h1 id="greeting">Hello Lyreca, do you want to be my Valentine?</h1>
+    <h1 id="greeting">Hello Aileen, do you want to be my Valentine?</h1>
 
     <!-- Buttons wrapper -->
     <div id="buttons-wrapper" style="display: inline-block; position: relative;">
@@ -156,8 +156,8 @@
   <canvas id="fireworks"></canvas>
   <h1 id="second-text">Yay, you won't regret it!</h1>
   <p id="sub-text">
-    Hello Pepang! I hope you have an amazing February, the month of love. Since you said YES to my invitation, you won’t just get gifts, but also a 
-    <span class="voucher">1x free massage from Peppa</span>, from me, redeemable any day between Feb 14–28. 😄 Enjoy, with love!
+    Hello MONSTAH! I hope you have an amazing February, the month of love. Since you said YES to my invitation, you won’t just get gifts, but also a 
+    <span class="voucher">1x free massage from Peppa</span>, from me, redeemable any day between Feb 14–28. 😄 
   </p>
   <img src="dog" id="dog" alt="Cute Dog">
   <audio id="bg-music" src="song.mp3" preload="auto"></audio>
